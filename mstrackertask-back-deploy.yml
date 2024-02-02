@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mstrackertaskback-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gestortrackertaskback
+  template:
+    metadata:
+      labels:
+        app: gestortrackertaskback
+    spec:
+      containers:
+      - name: gestortrackertaskback-container
+        image: devopeldar/gestortrackertaskback:3.0.21
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 5052
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/America/Argentina/Buenos_Aires
+      imagePullSecrets:
+      - name: docker-secret

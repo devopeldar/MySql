@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mstrackertaskfront-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gestortrackertaskfront
+  template:
+    metadata:
+      labels:
+        app: gestortrackertaskfront
+    spec:
+      containers:
+      - name: gestortrackertaskfront-container
+        image: devopeldar/gestortrackertaskfront:3.0.11
+        resources:
+          limits:
+            memory: "3840Mi"
+            cpu: "600m"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/America/Argentina/Buenos_Aires
+
+      imagePullSecrets:
+      - name: docker-secret
