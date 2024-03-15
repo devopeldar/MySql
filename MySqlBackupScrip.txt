@@ -12,13 +12,13 @@ sudo nano backup_mysql.sh
 #!/bin/bash
 
 # Variables de conexión a MySQL
-HOST="localhost"
+HOST="192.168.1.187"
 PORT="3306"
 USER="root"
-PASSWORD="root-password"
+PASSWORD="root_password"
 
 # Nombre del archivo de backup con ruta local en host
-backup_file="/home/kubebdtrxbak/MysqlBackup/backup_$(date +%Y%m%d%H%M%S).sql"
+backup_file="/home/pvfilestrackertask/mysqlbackup/backup_$(date +%Y%m%d%H%M%S).sql"
 
 # Realizar el backup utilizando mysqldump
 /usr/bin/mysqldump -h $HOST -P $PORT -u $USER -p$PASSWORD --all-databases > $backup_file
@@ -32,9 +32,9 @@ fi
 ###########################################
 
 #Para dar permisos al script
-chmod +x backup_mysql.sh
+sudo chmod +x backup_mysql.sh
 #Para ejectuar el Scrip
-./backup_mysql.sh
+sudo ./backup_mysql.sh
 
 # Para listar con tamaño de archivo y comprobar que ser realizo el backup
 ls -l
