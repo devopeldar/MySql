@@ -1,0 +1,40 @@
+# Instalar el cliente de mysql
+sudo apt update
+sudo apt install mysql-client
+# Comprobar si se instalado correctamente buscando el ejecutable
+which mysqldump
+
+# Crear al archivo Script para hacer el backup conectandose a la base de datos y grabando enuna carpeta local del host - pwd (print working directory)
+sudo nano backup_mysql.sh
+
+###########################################
+#Script
+#!/bin/bash
+
+# Variables de conexión a MySQL
+HOST="localhost"
+PORT="3306"
+USER="root"
+PASSWORD="root-password"
+
+# Nombre del archivo de backup con ruta local en host
+backup_file="/home/kubebdtrxbak/MysqlBackup/backup_$(date +%Y%m%d%H%M%S).sql"
+
+# Realizar el backup utilizando mysqldump
+/usr/bin/mysqldump -h $HOST -P $PORT -u $USER -p$PASSWORD --all-databases > $backup_file
+
+# Verificar si el backup se generó correctamente
+if [ $? -eq 0 ]; then
+    echo "Backup realizado con éxito en: $backup_file"
+else
+    echo "Error al realizar el backup"
+fi
+###########################################
+
+#Para dar permisos al script
+chmod +x backup_mysql.sh
+#Para ejectuar el Scrip
+./backup_mysql.sh
+
+# Para listar con tamaño de archivo y comprobar que ser realizo el backup
+ls -l
